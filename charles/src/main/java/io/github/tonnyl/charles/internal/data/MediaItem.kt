@@ -29,7 +29,7 @@ import android.net.Uri
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @SuppressLint("ParcelCreator")
 @Parcelize

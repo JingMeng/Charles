@@ -28,7 +28,7 @@ import io.github.tonnyl.charles.internal.data.SelectionSpec
 import io.github.tonnyl.charles.engine.ImageEngine
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.support.annotation.StyleRes
+import androidx.annotation.StyleRes
 import io.github.tonnyl.charles.ui.CharlesActivity
 
 class SelectionCreator(private val mCharles: Charles) {

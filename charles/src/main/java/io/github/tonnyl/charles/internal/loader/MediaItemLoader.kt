@@ -25,7 +25,7 @@ package io.github.tonnyl.charles.internal.loader
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import android.support.v4.content.CursorLoader
+import androidx.loader.content.CursorLoader
 import android.webkit.MimeTypeMap
 import io.github.tonnyl.charles.internal.data.MediaFilterType
 
@@ -99,14 +99,14 @@ class MediaItemLoader private constructor(
             |AND ${MediaStore.MediaColumns.SIZE}>0
             """.trimMargin()
         private val DOCUMENTS_SELECTION_ARGS = arrayOf(
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("TXT"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("HTM"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("HTML"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("PDF"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("DOC"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("XLS"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("PPT"),
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("ZIP"))
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("txt").orEmpty(),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("htm").orEmpty(),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("html").orEmpty(),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf").orEmpty(),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("doc").orEmpty(),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("xls").orEmpty(),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("ppt").orEmpty(),
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("zip").orEmpty())
         private const val DOCUMENTS_ORDER_BY = "${MediaStore.Files.FileColumns.DATE_ADDED} DESC"
         private val DOCUMENTS_QUERY_URI = MediaStore.Files.getContentUri("external")
         private val DOCUMENTS_PROJECTION = arrayOf(

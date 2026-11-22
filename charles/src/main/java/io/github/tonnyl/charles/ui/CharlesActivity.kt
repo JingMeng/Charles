@@ -25,12 +25,13 @@ package io.github.tonnyl.charles.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.ListPopupWindow
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.ListPopupWindow
 import android.view.MenuItem
 import io.github.tonnyl.charles.R
 import io.github.tonnyl.charles.ui.adapter.CategoriesAdapter
-import kotlinx.android.synthetic.main.activity_charles.*
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import android.graphics.PorterDuff
 import io.github.tonnyl.charles.internal.data.*
 
@@ -38,6 +39,10 @@ import io.github.tonnyl.charles.internal.data.*
  * Created by lizhaotailang on 30/01/2018.
  */
 class CharlesActivity : AppCompatActivity(), CharlesFragment.SelectionProvider {
+    private val toolbar: Toolbar get() = findViewById(R.id.toolbar)
+    private val titleTextView: TextView get() = findViewById(R.id.titleTextView)
+    private val applyTextView: TextView get() = findViewById(R.id.applyTextView)
+    private val progressTextView: TextView get() = findViewById(R.id.progressTextView)
 
     private lateinit var mAdapter: CategoriesAdapter
     private lateinit var mListPopupWindow: ListPopupWindow
@@ -111,7 +116,7 @@ class CharlesActivity : AppCompatActivity(), CharlesFragment.SelectionProvider {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item?.itemId == android.R.id.home) {
             onBackPressed()
         }
@@ -123,7 +128,7 @@ class CharlesActivity : AppCompatActivity(), CharlesFragment.SelectionProvider {
         super.onBackPressed()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState?.let {
             mSelectedCollection.onSaveInstanceState(it)

@@ -26,7 +26,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Checkable
@@ -106,9 +106,9 @@ class CheckView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         super.setVisibility(visibility)
         if (visibility == View.VISIBLE && drawBitmap == null) {
             drawBitmap = Bitmap.createBitmap(dp(size.toFloat()), dp(size.toFloat()), Bitmap.Config.ARGB_8888)
-            bitmapCanvas = Canvas(drawBitmap)
+            bitmapCanvas = drawBitmap?.let { Canvas(it) }
             checkBitmap = Bitmap.createBitmap(dp(size.toFloat()), dp(size.toFloat()), Bitmap.Config.ARGB_8888)
-            checkCanvas = Canvas(checkBitmap)
+            checkCanvas = checkBitmap?.let { Canvas(it) }
         }
     }
 
@@ -118,6 +118,14 @@ class CheckView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     override fun onDraw(canvas: Canvas) {
+        val drawBitmap = drawBitmap ?: return
+        val checkBitmap = checkBitmap ?: return
+        val bitmapCanvas = bitmapCanvas ?: return
+        val checkCanvas = checkCanvas ?: return
+        val borderPaint = borderPaint ?: return
+        val bitmapPaint = bitmapPaint ?: return
+        val bitmapEraser = bitmapEraser ?: return
+        val checkEraser = checkEraser ?: return
         if (visibility != View.VISIBLE) {
             return
         }

@@ -26,8 +26,8 @@ import android.content.Context
 import android.database.Cursor
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +37,16 @@ import android.widget.Toast
 import io.github.tonnyl.charles.R
 import io.github.tonnyl.charles.internal.data.*
 import io.github.tonnyl.charles.internal.data.MediaFilterType
-import kotlinx.android.synthetic.main.item_media_item.view.*
+import android.widget.TextView
+import android.widget.ImageView
+import io.github.tonnyl.charles.ui.component.CheckView
+
+private val View.nameTextView: TextView get() = findViewById(R.id.nameTextView)
+private val View.descTextView: TextView get() = findViewById(R.id.descTextView)
+private val View.durationTextView: TextView get() = findViewById(R.id.durationTextView)
+private val View.imageView: ImageView get() = findViewById(R.id.imageView)
+private val View.mediaCheckBox: CheckView get() = findViewById(R.id.mediaCheckBox)
+private val View.mediaItemLayout: View get() = findViewById(R.id.mediaItemLayout)
 
 class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollection: SelectedItemCollection) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -47,7 +56,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
     private var mContext: Context? = null
     private var mMediaItemClickListener: MediaItemsAdapter.OnMediaItemClickListener? = null
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         mCursor?.moveToPosition(position)
 
         mCursor?.let {
@@ -72,7 +81,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, image.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(image.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(image.mimeType).orEmpty().uppercase())
                         mContext?.let {
                             SelectionSpec.INSTANCE.imageEngine.loadImage(it, imageView, image.uri)
                         }
@@ -107,7 +116,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, video.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(video.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(video.mimeType).orEmpty().uppercase())
                         mContext?.let {
                             SelectionSpec.INSTANCE.imageEngine.loadImage(it, imageView, video.uri)
                         }
@@ -137,7 +146,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, audio.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(audio.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(audio.mimeType).orEmpty().uppercase())
 
                         imageView.setImageResource(R.drawable.ic_root_audio)
                         imageView.setColorFilter(Color.parseColor("#808080"), PorterDuff.Mode.SRC_IN)
@@ -166,7 +175,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
                         descTextView.text = context.getString(R.string.media_item_desc)
                                 .format(DateUtils.formatDateTime(context, document.time * 1000, DateUtils.FORMAT_SHOW_DATE),
                                         sizeText,
-                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(document.mimeType).toUpperCase())
+                                        MimeTypeMap.getSingleton().getExtensionFromMimeType(document.mimeType).orEmpty().uppercase())
                         imageView.setImageResource(R.drawable.ic_root_doc)
                         imageView.setColorFilter(Color.parseColor("#808080"), PorterDuff.Mode.SRC_IN)
 
@@ -190,7 +199,7 @@ class MediaItemsAdapter(mediaFilterType: MediaFilterType?, selectedItemCollectio
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         mContext = parent?.context
         return MediaItemViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_media_item, parent, false))
     }

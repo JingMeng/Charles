@@ -42,7 +42,7 @@ class SelectedItemCollection(context: Context) {
     fun onCreate(bundle: Bundle?) {
         mSelectedItems = linkedSetOf()
         bundle?.let {
-            mSelectedItems.addAll(it.getParcelableArrayList(STATE_SELECTION))
+            mSelectedItems.addAll(it.getParcelableArrayList<MediaItem>(STATE_SELECTION).orEmpty())
         }
     }
 
